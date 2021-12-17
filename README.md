@@ -14,22 +14,20 @@ Your program should work for any number of students, tutors, chairs and help sou
 
 Output
 ------------------------------------------------------------------------------
-Your program must output the following at appropriate times.
-Output of a student thread (x and y are ids):
-St: Student x takes a seat. Empty chairs = <# of empty chairs>. St: Student x found no empty chair. Will try again later
-St: Student x received help from Tutor y.
-Output of coordinator threads (x is the id, and p is the priority):
-Co: Student x with priority p in the queue. Waiting students now = <# students waiting>. Total requests = <total # requests (notifications sent) by students for tutoring so far>
-Output of a tutor thread after tutoring a student (x and y are ids):
-Tu: Student x tutored by Tutor y. Students tutored now = <# students receiving help now>. Total sessions tutored = <total number of tutoring sessions conducted completed so far by all the tutors>
+Your program must output the following at appropriate times. <br>
+Output of a student thread (x and y are ids): <br>
+St: Student x takes a seat. Empty chairs = <# of empty chairs>. St: Student x found no empty chair. Will try again later <br>
+St: Student x received help from Tutor y. <br>
+Output of coordinator threads (x is the id, and p is the priority): <br>
+Co: Student x with priority p in the queue. Waiting students now = <# students waiting>. Total requests = <total # requests (notifications sent) by students for tutoring so far> <br>
+Output of a tutor thread after tutoring a student (x and y are ids): <br>
+Tu: Student x tutored by Tutor y. Students tutored now = <# students receiving help now>. Total sessions tutored = <total number of tutoring sessions conducted completed so far by all the tutors> <br>
 Your program should not output anything else. You may use several printf statements for debugging. Disable them before you submit the code. You will lose one point for every line of unspecified output. If you are testing your program for a large number of threads, redirect the output to a file. It will save time for you. Also, print all error messages on stderr. This will avoid the error message redirection along with the output.
           
 Implementation Hints
 ------------------------------------------------------------------------------  
 Using Pthreads, begin by creating n students and m tutors as separate threads. (n and m are arguments to the program.) The coordinator will run as a separate thread. Student threads will alternate between programming for a period of time and seeking help from the tutor. If the tutor is available, they will obtain help. Otherwise, they will either sit in a chair in the waiting area or, if
-  no chairs are available, will resume programming and seek help at a later time.
-When a student arrives and finds an empty chair, the student must notify the coordinator using a semaphore. The coordinator then has to queue the student according to the student’s priority. How does the coordinator know which student has arrived? How does the tutor find the student with the highest priority? (Clue: You need two shared data structures here. Also, you just need a simple data structure for implementing priority.) When a tutor is free (either initially or after helping a student), the tutor must wait for the coordinator to notify of a waiting student (use another
-
-semaphore). A tutor should then wake up the student with highest priority. A tutor cannot wake up any student.
+  no chairs are available, will resume programming and seek help at a later time. <br>
+When a student arrives and finds an empty chair, the student must notify the coordinator using a semaphore. The coordinator then has to queue the student according to the student’s priority. How does the coordinator know which student has arrived? How does the tutor find the student with the highest priority? (Clue: You need two shared data structures here. Also, you just need a simple data structure for implementing priority.) When a tutor is free (either initially or after helping a student), the tutor must wait for the coordinator to notify of a waiting student (use another semaphore). A tutor should then wake up the student with highest priority. A tutor cannot wake up any student.
 Simulate the programming part of a student thread by sleeping for a random amount of time up to 2 ms. For the tutoring part, make both the student and the tutor thread sleep for 0.2 ms.
 For details on how to use pthreads, synchronization primitives mutex and semaphores see man pages. For a more detailed tutorial on Pthreads and Semaphores, see https://computing.llnl.gov/tutorials/pthreads/#Thread
